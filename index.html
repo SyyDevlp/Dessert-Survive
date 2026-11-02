@@ -631,13 +631,13 @@ const SC=[
 {t:"Sendirian di gurun. Satu-satunya jalan pulang: temukan potongan peta yang tercecer.",d:k=>{sky("#2b1b3d","#e07a3c");for(let i=0;i<40;i++)disc(rnd(i)*W,rnd(i+5)*130,1.4,"#fff");gnd(300,"#7a4e22");disc(400,300,70,"rgba(255,200,120,.35)");X.fillStyle="#1a1008";X.beginPath();X.moveTo(380,332);X.lineTo(250-k*60,380);X.lineTo(280-k*60,384);X.lineTo(410,336);X.fill();man(400,332,1.9,"#1a1008")}}];
 const D=3.6,T=SC.length*D;let t0=performance.now(),dead=false,last=-1;const mu=introMusic();
 const end=()=>{if(dead)return;dead=true;mu();ov.remove();done()};sk.onclick=end;
-(function fr(now){if(dead)return;const el=(now-t0)/1000;if(el>=T)return end();if(el>SK)sk.style.display="block";
+(function fr(){if(dead)return;try{const el=Math.max(0,(performance.now()-t0)/1000);if(el>=T)return end();if(el>SK)sk.style.display="block";
 const i=Math.floor(el/D),k=(el%D)/D;if(i!=last){last=i;if(i>=2&&i<=4)mu.sting()}
 X.clearRect(0,0,W,Hh);SC[i].d(k);
 X.fillStyle="rgba(0,0,0,.72)";X.fillRect(0,Hh-78,W,78);X.fillStyle="#fff";X.font="bold 21px sans-serif";X.textAlign="center";
 const w=SC[i].t.split(" ");let ln="",y=Hh-46;w.forEach(q=>{if(X.measureText(ln+q).width>W-60){X.fillText(ln,W/2,y);y+=26;ln=""}ln+=q+" "});X.fillText(ln,W/2,y);X.textAlign="left";
 const fa=k<.12?1-k/.12:(k>.92?(k-.92)/.08:0);if(fa>0){X.fillStyle="rgba(0,0,0,"+fa+")";X.fillRect(0,0,W,Hh)}
-requestAnimationFrame(fr)})(performance.now())}
+requestAnimationFrame(fr)}catch(e){end()}})()}
 {const _st=startGame;startGame=function(){const a=arguments,me=this;if(G&&!G.play&&!G.mp&&!G.introDone){G.introDone=1;mpIntro(()=>_st.apply(me,a))}else return _st.apply(this,arguments)}}
 // ===== Multiplayer dikunci sementara =====
 {const b=$("bMP");b.style.opacity=".55";b.innerHTML=b.innerHTML.replace(/Main bareng teman/,"🔒 Masih Masa Percobaan");b.onclick=()=>toast("🔒 Multiplayer: Masih Masa Percobaan")}
