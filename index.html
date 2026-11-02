@@ -95,7 +95,7 @@ body.ed #joy,body.ed .cb,body.ed #bAct,body.ed #bUse,body.ed #hot,body.ed #top{o
 <script>
 const $=i=>document.getElementById(i),T=THREE;
 const TIPS=["Tidak ada peta. Ingat landmark dan papan petunjuk.","Berlari menguras stamina dan air.","Rakit buggy: cari rangka, mesin, aki, tangki, setir, kursi, suspensi, transmisi, 4 ban, 4 baut.","Jeriken bensin diisi ke buggy saat dekat kendaraan.","Gudang dan garasi sering menyimpan komponen.","Malam hari gelap, jelajahi saat siang. Dekati tiang lampu jalan untuk menyalakannya.","Survivor Phone butuh sinyal. Cari menara radio atau tempat tinggi."];
-const ITEMS={water:["Air Mineral","#4aa3e0",5,6],can:["Makanan Kaleng","#c9822b",5,5],bread:["Roti","#d9b26a",4,4],med:["Medkit","#d33",1.5,2],tire:["Ban","#333",2,3],bolt:["Baut","#aaa",4,8],fuel:["Jeriken","#e22",3,2],eng:["Mesin","#777",0,1],bat:["Aki","#3a6",0,1],tank:["Tangki","#a55",0,1],wheel:["Setir","#999",0,1],seat:["Kursi","#654",0,1],susp:["Suspensi","#bb5",0,1],trans:["Transmisi","#58a",0,1],map1:["Potongan Peta 1","#e8d9a8",0,1],map2:["Potongan Peta 2","#e8d9a8",0,1],map3:["Potongan Peta 3","#e8d9a8",0,1],map4:["Potongan Peta 4","#e8d9a8",0,1],map5:["Potongan Peta 5","#e8d9a8",0,1],map6:["Potongan Peta 6","#e8d9a8",0,1]};
+const ITEMS={water:["Air Mineral","#4aa3e0",5,6],can:["Makanan Kaleng","#c9822b",5,5],bread:["Roti","#d9b26a",4,4],med:["Medkit","#d33",1.5,2],tire:["Ban","#333",0,3],bolt:["Baut","#aaa",0,8],fuel:["Jeriken","#e22",0,2],eng:["Mesin","#777",0,1],bat:["Aki","#3a6",0,1],tank:["Tangki","#a55",0,1],wheel:["Setir","#999",0,1],seat:["Kursi","#654",0,1],susp:["Suspensi","#bb5",0,1],trans:["Transmisi","#58a",0,1],map1:["Potongan Peta 1","#e8d9a8",0,1],map2:["Potongan Peta 2","#e8d9a8",0,1],map3:["Potongan Peta 3","#e8d9a8",0,1],map4:["Potongan Peta 4","#e8d9a8",0,1],map5:["Potongan Peta 5","#e8d9a8",0,1],map6:["Potongan Peta 6","#e8d9a8",0,1]};
 const NEED={eng:1,bat:1,tank:1,wheel:1,seat:1,susp:1,trans:1,tire:4,bolt:4};
 const DIFF=[["EASY",1.6,.6],["NORMAL",1,1],["HARD",.6,1.5],["SUPER HARD",.35,2.2]];
 const AVS=["#e0902f","#4aa3e0","#6bb36b","#c55"];
@@ -293,7 +293,7 @@ CK.forEach((L,v)=>{if(!L.length)return;const m=new T.InstancedMesh([()=>cactusGe
 // loot
 crates.forEach(c=>{const k=2+((rng()*3)|0);for(let j=0;j<k;j++){if(rng()>.5*Lm+.35)continue;let tw=0,ids=Object.keys(ITEMS).filter(i=>ITEMS[i][2]>0);ids.forEach(i=>tw+=ITEMS[i][2]);let r=rng()*tw,id=ids[0];for(const i of ids){r-=ITEMS[i][2];if(r<=0){id=i;break}}c.items.push([id,Math.max(1,Math.round(1+rng()*(ITEMS[id][3]-1)*Lm))])}c.items.length=Math.min(c.items.length,1)});
 crates.forEach(c=>{if(Math.hypot(c.x,c.z)>150&&rng()<.35)c.items.length=0});
-const pl=["eng","bat","tank","wheel","seat","susp","trans","tire","tire","tire","tire","bolt","bolt","bolt","bolt"];pl.forEach(i=>{let c,t=0;do{c=crates[(rng()*crates.length)|0]}while(c.items.length&&t++<80);c.items.push([i,1])});
+// part kendaraan: ditempatkan di blok PARTS (dekat spawn, jarak antar-part dijaga)
 // vehicle
 veh=makeBuggy();wg.add(veh);hl=new T.SpotLight('#fff2cc',0,70,.65,.5,1);hl.position.set(0,1.1,-1.9);const ht=new T.Object3D();ht.position.set(0,.2,-14);veh.add(hl,ht);hl.target=ht;
 const a=rng()*6.28;exitPos=new T.Vector3(Math.cos(a)*680,0,Math.sin(a)*680);exitPos.y=H(exitPos.x,exitPos.z);
@@ -311,8 +311,14 @@ else if(k==1){W2(x-hw,z-hd,x+hw*.2,z-hd,y,3.8,c);W2(x-hw,z-hd,x-hw,z+hd*.3,y,2.4
 else{W2(x-hw,z-hd,x+hw,z-hd,y,2.6,c);W2(x-hw,z-hd,x-hw,z+hd,y,2.6,c);W2(x+hw,z-hd,x+hw,z+hd,y,2.6,c);D2(x,y+2.7,z,w+.8,.25,d+.8,'#6b4a2a');D2(x+hw+1.2,y+2.5,z+hd+.8,.15,5,.15,'#3a2a1a');D2(x+hw+1.9,y+4.2,z+hd+.8,1.5,1,.05,'#b33');addC(x,z-hd+1,1);bk(x-hw+1,y,z+hd-1,'#666')}}
 crates.slice(n0).forEach(c=>{if(r2()<.45)return;const k=2+((r2()*3)|0);for(let j=0;j<k;j++){if(r2()>.5*Lm+.35)continue;let tw=0,ids=Object.keys(ITEMS).filter(i=>ITEMS[i][2]>0);ids.forEach(i=>tw+=ITEMS[i][2]);let r=r2()*tw,id=ids[0];for(const i of ids){r-=ITEMS[i][2];if(r<=0){id=i;break}}c.items.push([id,Math.max(1,Math.round(1+r2()*(ITEMS[id][3]-1)*Lm))])}c.items.length=Math.min(c.items.length,1)});
 {const oc=crates.slice(n0),used=new Set();for(let q=0;q<6;q++){let b=null,bz=-1;oc.forEach(c=>{if(used.has(c))return;const an=(Math.atan2(c.z,c.x)+6.2832)%6.2832;if(Math.floor(an/1.0472)!=q)return;const d=Math.hypot(c.x,c.z);if(d>bz){bz=d;b=c}});if(!b)b=oc.find(c=>!used.has(c));if(b){used.add(b);b.items=[["map"+(q+1),1]]}}}
-/*PARTS_START*/{const pc=crates.slice(n0).filter(c=>!c.items.length||!/^map/.test(c.items[0][0])),r3=mulberry((seed^0x7e3a91)>>>0);for(let i=pc.length-1;i>0;i--){const j=(r3()*(i+1))|0,t=pc[i];pc[i]=pc[j];pc[j]=t}
-["eng","bat","tank","wheel","seat","susp","trans","eng","bat","tank","wheel","seat","susp","trans"].forEach((p,i)=>{if(pc[i])pc[i].items=[[p,1]]})}/*PARTS_END*/
+/*PARTS_START*/{const rp=mulberry((seed^0x7e3a91)>>>0),FUEL_N=3,want=[];
+// jumlah loot kendaraan = persis NEED (ubah NEED -> loot ikut berubah) + jeriken
+for(const k in NEED)for(let q=0;q<NEED[k];q++)want.push(k);for(let q=0;q<FUEL_N;q++)want.push('fuel');
+const cand=crates.filter(c=>{const d=Math.hypot(c.x,c.z);return d>=25&&d<=230&&!(c.items.length&&/^map/.test(c.items[0][0]))}),pk=[];
+for(let i=cand.length-1;i>0;i--){const j=(rp()*(i+1))|0,t=cand[i];cand[i]=cand[j];cand[j]=t}
+want.forEach(id=>{let c=null;for(const sp2 of [50,38,26,14]){c=cand.find(q=>!pk.includes(q)&&pk.every(p=>Math.hypot(p.x-q.x,p.z-q.z)>=sp2));if(c)break}
+if(!c)for(let t=0;t<300&&!c;t++){const a=rp()*6.28,r=30+rp()*195,x=Math.cos(a)*r,z=Math.sin(a)*r;if(PADS.some(p=>Math.abs(x-p[0])<p[2]+3&&Math.abs(z-p[1])<p[3]+3)||pk.some(p=>Math.hypot(p.x-x,p.z-z)<35))continue;addC(x,z,0);c=crates[crates.length-1]}
+if(c){c.items=[[id,1]];pk.push(c)}})}/*PARTS_END*/
 if(DL2.length){const im=new T.InstancedMesh(new T.BoxGeometry(1,1,1),new T.MeshLambertMaterial(),DL2.length),dm=new T.Object3D(),cc=new T.Color();DL2.forEach((d,i)=>{dm.position.set(d[0],d[1],d[2]);dm.scale.set(d[3],d[4],d[5]);dm.updateMatrix();im.setMatrixAt(i,dm.matrix);im.setColorAt(i,cc.set(d[6]))});im.frustumCulled=false;im.instanceMatrix.needsUpdate=true;im.instanceColor.needsUpdate=true;wg.add(im)}
 if(BK.length){const m=new T.InstancedMesh(barrelGeo(),new T.MeshLambertMaterial(),BK.length),o=new T.Object3D(),c=new T.Color();BK.forEach((d,i)=>{o.position.set(d[0],d[1],d[2]);o.scale.setScalar(d[3]);o.rotation.set(0,d[4],0);o.updateMatrix();m.setMatrixAt(i,o.matrix);m.setColorAt(i,c.set(d[5]))});m.frustumCulled=false;wg.add(m)}
 window.__outposts=sp.length}/*OUT_END*/buildTowers(seed);thinFood(seed);addEnv(seed);
