@@ -314,10 +314,10 @@ crates.slice(n0).forEach(c=>{if(r2()<.45)return;const k=2+((r2()*3)|0);for(let j
 /*PARTS_START*/{const rp=mulberry((seed^0x7e3a91)>>>0),FUEL_N=3,want=[];
 // jumlah loot kendaraan = persis NEED (ubah NEED -> loot ikut berubah) + jeriken
 for(const k in NEED)for(let q=0;q<NEED[k];q++)want.push(k);for(let q=0;q<FUEL_N;q++)want.push('fuel');
-const cand=crates.filter(c=>{const d=Math.hypot(c.x,c.z);return d>=15&&d<=100&&!(c.items.length&&/^map/.test(c.items[0][0]))}),pk=[];
+const cand=crates.filter(c=>{const d=Math.hypot(c.x,c.z);return d>=10&&d<=55&&!(c.items.length&&/^map/.test(c.items[0][0]))}),pk=[];
 for(let i=cand.length-1;i>0;i--){const j=(rp()*(i+1))|0,t=cand[i];cand[i]=cand[j];cand[j]=t}
-want.forEach(id=>{let c=null;for(const sp2 of [24,18,12,6]){c=cand.find(q=>!pk.includes(q)&&pk.every(p=>Math.hypot(p.x-q.x,p.z-q.z)>=sp2));if(c)break}
-if(!c)for(let t=0;t<300&&!c;t++){const a=rp()*6.28,r=18+rp()*80,x=Math.cos(a)*r,z=Math.sin(a)*r;if(PADS.some(p=>Math.abs(x-p[0])<p[2]+3&&Math.abs(z-p[1])<p[3]+3)||pk.some(p=>Math.hypot(p.x-x,p.z-z)<16))continue;addC(x,z,0);c=crates[crates.length-1]}
+want.forEach(id=>{let c=null;for(const sp2 of [16,12]){c=cand.find(q=>!pk.includes(q)&&pk.every(p=>Math.hypot(p.x-q.x,p.z-q.z)>=sp2));if(c)break}
+if(!c)for(let t=0;t<300&&!c;t++){const a=rp()*6.28,r=10+rp()*45,x=Math.cos(a)*r,z=Math.sin(a)*r;if(Math.hypot(x-12,z-8)<9||PADS.some(p=>Math.abs(x-p[0])<p[2]+3&&Math.abs(z-p[1])<p[3]+3)||pk.some(p=>Math.hypot(p.x-x,p.z-z)<12))continue;addC(x,z,0);c=crates[crates.length-1]}
 if(c){c.items=[[id,1]];pk.push(c)}})}/*PARTS_END*/
 if(DL2.length){const im=new T.InstancedMesh(new T.BoxGeometry(1,1,1),new T.MeshLambertMaterial(),DL2.length),dm=new T.Object3D(),cc=new T.Color();DL2.forEach((d,i)=>{dm.position.set(d[0],d[1],d[2]);dm.scale.set(d[3],d[4],d[5]);dm.updateMatrix();im.setMatrixAt(i,dm.matrix);im.setColorAt(i,cc.set(d[6]))});im.frustumCulled=false;im.instanceMatrix.needsUpdate=true;im.instanceColor.needsUpdate=true;wg.add(im)}
 if(BK.length){const m=new T.InstancedMesh(barrelGeo(),new T.MeshLambertMaterial(),BK.length),o=new T.Object3D(),c=new T.Color();BK.forEach((d,i)=>{o.position.set(d[0],d[1],d[2]);o.scale.setScalar(d[3]);o.rotation.set(0,d[4],0);o.updateMatrix();m.setMatrixAt(i,o.matrix);m.setColorAt(i,c.set(d[5]))});m.frustumCulled=false;wg.add(m)}
